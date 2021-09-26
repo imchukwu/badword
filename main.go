@@ -23,16 +23,15 @@ func getAnswer(w []word) {
 
 	for _, v := range w {
 		count++
-
 		badWord := v.shuffleLetters(v)
 
 		fmt.Println("Word:", count)
-		fmt.Println("Shuffled Word is: ", badWord)
+		fmt.Println("Shuffled Word is: ", strings.ToUpper(badWord))
 		fmt.Println("Hint: ", v.description)
 
 		correctWord, _ := getInput("Provide the correct word: ", reader)
 
-		result := correctWord == v.name
+		result := strings.ToUpper(correctWord) == strings.ToUpper(v.name)
 
 		if result != true {
 			fmt.Println("The answer is wrong")
