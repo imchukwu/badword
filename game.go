@@ -6,24 +6,28 @@ import (
 )
 
 type word struct {
-	value       string
+	name        string
 	description string
 }
 
-func newWord() word {
+func newWord(n string, d string) word {
 	w := word{
-		value:       "cat",
+		name:        n,
 		description: "",
 	}
 
 	return w
 }
 
+// func readWordFromFile() []word {
+
+// }
+
 func (wr *word) shuffleLetters(w word) string {
 
 	rand.Seed(time.Now().Unix())
 
-	shuffledWord := []rune(w.value)
+	shuffledWord := []rune(w.name)
 	rand.Shuffle(len(shuffledWord), func(i, j int) {
 		shuffledWord[i], shuffledWord[j] = shuffledWord[j], shuffledWord[i]
 	})
