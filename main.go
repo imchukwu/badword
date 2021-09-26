@@ -14,55 +14,40 @@ func getInput(prompt string, r *bufio.Reader) (string, error) {
 	return strings.TrimSpace(input), err
 }
 
-func getAnswer(w word) {
+func getAnswer(w []word) {
+	count := 0
 	total := 0
 	reader := bufio.NewReader(os.Stdin)
 	username, _ := getInput("Enter your username: ", reader)
+	fmt.Print("\n")
 
-	badWord := w.shuffleLetters(w)
+	for _, v := range w {
+		count++
 
-	fmt.Println("Shuffled Word is: ", badWord)
+		badWord := v.shuffleLetters(v)
 
-	correctWord, _ := getInput("Provide the correct word: ", reader)
+		fmt.Println("Word:", count)
+		fmt.Println("Shuffled Word is: ", badWord)
+		fmt.Println("Hint: ", v.description)
 
-	result := correctWord == w.name
+		correctWord, _ := getInput("Provide the correct word: ", reader)
 
-	if result != true {
-		fmt.Printf("%v got the answer wrongly with total score %v", username, total)
-	} else {
-		total += 1
-		fmt.Printf("%v got the answer correct with total score %v", username, total)
+		result := correctWord == v.name
+
+		if result != true {
+			fmt.Println("The answer is wrong")
+		} else {
+			total++
+			fmt.Println("The answer is Correct")
+		}
+		fmt.Print("\n")
+
 	}
+
+	fmt.Println(username, "have a total score of:", total, "of:", count, "words")
 }
 
 func main() {
-	getAnswer(newWord("tiger", "wild animal"))
-
-	// w := newWord()
-	// word := w.shuffleLetters(w)
-
-	// fmt.Println(word)
-
-	// file, err := os.Open("wordList.txt")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer file.Close()
-
-	// scanner := bufio.NewScanner(file)
-	// var words []word
-
-	// for scanner.Scan() {
-	// 	w := strings.Split(scanner.Text(), "\t")
-
-	// 	// fmt.Println(w)
-	// 	words = append(words, word{value: w[0], description: w[0]})
-	// 	fmt.Println(w[0])
-	// }
-
-	// if err := scanner.Err(); err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(words)
+	getAnswer(readWordFromFile())
 
 }
