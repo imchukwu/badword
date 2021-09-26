@@ -1,7 +1,11 @@
 package main
 
 import (
+	"bufio"
+	"log"
 	"math/rand"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -19,9 +23,30 @@ func newWord(n string, d string) word {
 	return w
 }
 
-// func readWordFromFile() []word {
+func readWordFromFile() []word {
 
-// }
+	file, err := os.Open("wordList.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	var words []word
+
+	for scanner.Scan() {
+		w := scanner.Text()
+		wordSplit := strings.Split(w, ":")
+
+		words = append(words, word{name: wordSplit[0], description: wordSplit[1]})
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return words
+}
 
 func (wr *word) shuffleLetters(w word) string {
 
